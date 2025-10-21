@@ -21,7 +21,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticD
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 import lightgbm as lgb
 import xgboost as xgb
-from scipy import interp
+# from scipy import np.interp
 from EvaluationMetrics import Metrics
 from Nets import (DealDataset, Net_CNN_1, Net_CNN_11, Net_RNN_2, Net_ABCNN_4, Net_ResNet_5, Net_AutoEncoder_6)
 from torch.utils.data import DataLoader
@@ -843,9 +843,9 @@ class ILearnMachineLearning(object):
                     metrics = Metrics(tmp_data[:, -1], tmp_data[:, 1])
                     aucData.append(['Fold %d AUROC = %s' %(f, metrics.auc), metrics.aucDot])
                     prcData.append(['Fold %d AUPRC = %s' %(f, metrics.prc), metrics.prcDot])
-                    tprs.append(interp(mean_fpr, metrics.aucDot['fpr'], metrics.aucDot['tpr']))
+                    tprs.append(np.interp(mean_fpr, metrics.aucDot['fpr'], metrics.aucDot['tpr']))
                     tprs[-1][0] = 0
-                    precisions.append(interp(mean_recall, metrics.prcDot['recall'][::-1], metrics.prcDot['precision'][::-1]))
+                    precisions.append(np.interp(mean_recall, metrics.prcDot['recall'][::-1], metrics.prcDot['precision'][::-1]))
                     dataMetrics[int(f)] = np.array([metrics.sensitivity, metrics.specificity, metrics.precision, metrics.accuracy, metrics.mcc, metrics.f1, metrics.auc, metrics.prc]).reshape((1, -1))
                     index_name.append('Fold %d' %f)
                     del metrics
